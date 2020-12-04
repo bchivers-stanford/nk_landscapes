@@ -1,0 +1,17 @@
+/* Image classes */
+.unselected {
+    opacity: 0.2;
+    height: 125px;
+    width: 125px;
+
+  } 
+
+.selected {
+    opacity: 1.0;
+    height: 125px;
+    width: 125px;
+}
+
+.shapeCard{
+
+}

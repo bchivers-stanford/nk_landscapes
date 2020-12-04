@@ -1,0 +1,10 @@
+{
+  "public": {
+    "playerIdParam": "playerIdKey",
+    "playerIdParamExclusive": false,
+    "debug_newPlayer": false,
+    "debug_resetSession": false,
+    "debug_resetDatabase": true,
+    "debug_gameDebugMode": true
+  }
+}
