@@ -1,13 +1,11 @@
-# Alien Art
-
-_This project was generated with [create-empirica-app](https://github.com/empiricaly/create-empirica-app)._
+# NK Landsacpes
 
 ## Getting started
 
 To run this project locally, run the local server:
 
 ```sh
-meteor
+meteor --settings local.json
 ```
 
 ## Introduction
