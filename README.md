@@ -1,13 +1,11 @@
-# Alien Art
-
-_This project was generated with [create-empirica-app](https://github.com/empiricaly/create-empirica-app)._
+# NK Landsacpes
 
 ## Getting started
 
 To run this project locally, run the local server:
 
 ```sh
-meteor
+meteor --settings local.json
 ```
 
 ## Introduction
@@ -25,18 +23,19 @@ find more details about how to customize how a game _Round_ should be rendered,
 what _Consent_ message and which _Intro Steps_ you want to present the players
 with, etc.
 
-The HTML root of you app in `/client/main.html` shouldn't generally be changed
-much, other than to update the app's HTML `<head>`, which contains the app's
-title, and possibly 3rd party JS and CSS imports.
+The `/client` directory is split into three steps: intro, game, and exit.
 
-All styling starts in `/client/main.less`, and is written in
-[LESS](http://lesscss.org/), a simple superset of CSS. You can also add a plain
-CSS files in `/client`.
+In intro, you will find the code for the Consent Page, Instructions, and a quiz
+on the Instructions.  
 
-The `/client/game`, `/client/intro`, `/client/exit` directories all contain
-[React](https://reactjs.org/) components, which compose the UI of your app.
-If you are new to React, we recommend you try out the official
-[React Tutorial](https://reactjs.org/tutorial/tutorial.html).
+The game directory contains files for the actual experiment.  The Round contains
+a Task, which is split into TaskResponse and TaskStimulus.  The TaskStimulus contains
+a bulk of the experiment, with both the Selector component and ArtDisplay.  There
+is also a RoundQuiz (titled "Reflection" in the experiment) at the end of each
+Round.
+
+The exit directory contains a short exit survey, and provides the bonus code to
+the participant.
 
 ### Server
 
@@ -50,8 +49,6 @@ callbacks, such as `onRoundEnd`, offer powerful ways to add logic to a game in a
 central point (the server), which is often preferable to adding all the logic on
 the client.
 
-Finally, the `/server/bots.js` file is where you can add bot definitions
-to your app.
 
 ### Public
 
