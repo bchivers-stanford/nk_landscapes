@@ -56,13 +56,18 @@ export default class History extends React.Component {
       }
     }
 
-    renderSubmission(submission,index) {
+    renderSubmission(submission,index, array) {
+      console.log(array)
+      console.log(index)
+        var output_index = array.length - index
+      console.log(output_index)
+        var submission = array[output_index-1]
         var gridOutput = this.renderImage(submission)
         return (
-          <TableBody key={index}>
-              <TableRow key={index}>
-                <TableCell><h1>{index+1}</h1></TableCell>
-                <TableCell key={index}>
+          <TableBody key={output_index}>
+              <TableRow key={output_index}>
+                <TableCell><h1>{output_index}</h1></TableCell>
+                <TableCell key={output_index}>
                   {gridOutput}
                 </TableCell>
                 <TableCell><h1>{(submission["score"]*1000).toFixed(2)}</h1></TableCell>
@@ -76,7 +81,7 @@ export default class History extends React.Component {
       const history_list = player.round.get("submissions")
   
       return (
-        <div className="history" style={{overflow:"auto", maxHeight:"500px", width:"500px"}}>
+        <div className="history" style={{overflow:"auto", maxHeight:"600px", width:"500px"}}>
           <Table>
               <TableBody>
                 <TableRow>
@@ -85,7 +90,7 @@ export default class History extends React.Component {
                   <TableCell><h1>Points</h1></TableCell>
                 </TableRow>
               </TableBody>
-            {history_list.map((submission, index) => this.renderSubmission(submission,index))}
+            {history_list.map((submission, index, array) => this.renderSubmission(submission,index, array))}
           </Table>
         </div>
       );
