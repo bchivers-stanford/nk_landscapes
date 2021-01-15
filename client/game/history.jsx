@@ -24,24 +24,25 @@ export default class History extends React.Component {
 
     renderImage(submission) {
       if (this.shapes.length<6) {
-        return ( 
+        return (
         <Grid container>
         <Grid  item spacing={8} >
           {this.shapes.map((shape,index) => (
             <Card className="shapeCard" elevation={0} key={shape}>
-              <img key={shape} src={shape} className={submission["curSelection"][index]===0 ? 'gridImage-unselected' : 'gridImage-selected'}/>
+              <img key={shape} src={shape}
+              className={submission["curSelection"][index]===0 ? 'gridImage-unselected' : 'gridImage-selected'}/>
             </Card>
           ))}
         </Grid> </Grid>);
       }
       else {
         return (
-        <div>
+        <div style={{width:"125px"}}>
         <Grid container item spacing={8} >
           { this.shapes.slice(0,5).map((shape,index) => (
             <Card className="shapeCard" elevation={0} key={shape}>
               <img key={shape} src={shape} className={submission["curSelection"][index]===0 ? 'gridImage-unselected' : 'gridImage-selected'}/>
-            </Card>  
+            </Card>
             ))
           }
         </Grid>
@@ -49,11 +50,17 @@ export default class History extends React.Component {
           { this.shapes.slice(5,this.shapes.length).map((shape,index) => (
             <Card className="shapeCard" elevation={0} key={shape}>
               <img className={submission["curSelection"][index+5]===0 ? 'gridImage-unselected' : 'gridImage-selected'} key={shape} src={shape}  />
-            </Card>  
+            </Card>
             ))
-          }      
+          }
         </Grid> </div> );
       }
+    }
+
+    highlightFirstRow()
+    {
+        var trs = document.getElementById('history_list').getElementsByTagName('tr');
+    trs[0].className = "currentRow";
     }
 
     renderSubmission(submission,index, array) {
@@ -66,11 +73,13 @@ export default class History extends React.Component {
         return (
           <TableBody key={output_index}>
               <TableRow key={output_index}>
-                <TableCell><h1>{output_index}</h1></TableCell>
-                <TableCell key={output_index}>
+
+                <TableCell   className={output_index=== array.length ? 'most_recent' : 'not_recent'} 
+                ><h1>{output_index}</h1></TableCell>
+                <TableCell key={output_index} className={output_index=== array.length ? 'most_recent_selection' : 'not_recent_selection'}>
                   {gridOutput}
                 </TableCell>
-                <TableCell><h1>{(submission["score"]*1000).toFixed(2)}</h1></TableCell>
+                <TableCell key={output_index} className={output_index=== array.length ? 'most_recent' : 'not_recent'}  ><h1>{(submission["score"]*1000).toFixed(2)}</h1>   </TableCell>
               </TableRow>
             </TableBody>
         );
@@ -79,15 +88,16 @@ export default class History extends React.Component {
     render() {
       const { game, player } = this.props;
       const history_list = player.round.get("submissions")
-  
+
       return (
-        <div className="history" style={{overflow:"auto", maxHeight:"600px", width:"500px"}}>
+ 
+        <div className="history" style={{maxHeight:"600px", overflow:"auto", width:"600px"}}>
           <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell><h1>Selection</h1></TableCell>
-                  <TableCell><h1>Points</h1></TableCell>
+              <TableBody >
+                <TableRow >
+                  <TableCell ><h1>Submission</h1></TableCell>
+                  <TableCell ><h1>Selection</h1></TableCell>
+                  <TableCell ><h1>Points</h1></TableCell>
                 </TableRow>
               </TableBody>
             {history_list.map((submission, index, array) => this.renderSubmission(submission,index, array))}
@@ -96,4 +106,3 @@ export default class History extends React.Component {
       );
     }
   }
-  

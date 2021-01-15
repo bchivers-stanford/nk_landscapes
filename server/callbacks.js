@@ -1,6 +1,7 @@
 import Empirica from "meteor/empirica:core";
 import { Mongo } from 'meteor/mongo'
 FitnessFunctions = new Mongo.Collection('fitness_functions');
+
 // onGameStart is triggered opnce per game before the game starts, and before
 // the first onRoundStart. It receives the game and list of all the players in
 // the game.
@@ -15,18 +16,17 @@ Empirica.onRoundStart((game, round) => {
     player.round.set("submissions",[])
     player.round.set("curScore",0)
     player.round.set("totalScore", 0);
-    
+
     var functionFactor = "functionGame"+(round.index+1)
     var functionName = game.treatment[functionFactor]
     var fitness_function = FitnessFunctions.find({"name":functionName}).fetch();
     var curSelection = Array.from(fitness_function[0]['lowest_location'].slice(1,-1).split(",").map(Number))
-    
     player.round.set("curSelection",curSelection)
 
 
     //Generate Random
     var random = [];
-    _.times(num_shapes, i => { 
+    _.times(num_shapes, i => {
       var left = Math.random()*30;
       var bottom = Math.random()*100;
       const rand = {
@@ -38,7 +38,7 @@ Empirica.onRoundStart((game, round) => {
     } );
 
     player.round.set("random",random)
-    
+
   })
 	var timestamp = Date.now()/1000.0;
 	round.set("started", timestamp)
@@ -55,11 +55,10 @@ Empirica.onStageStart((game, round, stage) => {
 // onStageEnd is triggered after each stage.
 // It receives the same options as onRoundEnd, and the stage that just ended.
 Empirica.onStageEnd((game, round, stage) => {
-  const rewardScale = game.treatment["rewardScale"]
+  const rewardScale = .1//game.treatment["rewardScale"]
   game.players.forEach(player => {
     var curSelection = player.round.get("curSelection")
     var binary_curSelection = curSelection.reduce((res, x) => res << 1 | x)
-
     var functionFactor = "functionGame"+(round.index+1)
     var functionName = game.treatment[functionFactor]
     var fitness_function = FitnessFunctions.find({"name":functionName}).fetch();
@@ -71,7 +70,7 @@ Empirica.onStageEnd((game, round, stage) => {
     const submission = {"curSelection":curSelection,
                         "score":score};
     player.round.append("submissions",submission)
-    
+
     player.stage.set("submission",submission)
 
     var timestamp = Date.now()/1000.0;
@@ -83,7 +82,7 @@ Empirica.onStageEnd((game, round, stage) => {
                      stateClicked: player.stage.get("selection"), // which shapes were clicked
                      currScore: player.stage.get("score"), // the score of the shape combination
                    };
-    
+
     round.append("history",histData);
   })
 });
